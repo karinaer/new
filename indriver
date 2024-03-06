@@ -1,0 +1,34 @@
+
+import math
+
+def distance(lat1, lon1, lat2, lon2):
+    # Расчет расстояния по формуле Гаусса
+    R = 6371 # Расстояние в км от экватора до полюса
+    dlat = math.radians(lat2 - lat1)
+    dlon = math.radians(lon2 - lon1)
+    a = math.sin(dlat/2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon/2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    return R * c
+
+# Ввод координат двух человек
+print("Введите координаты первого человека (широта, долгота):")
+lat1, lon1 = map(float, input().split(','))
+print("Введите координаты второго человека (широта, долгота):")
+lat2, lon2 = map(float, input().split(','))
+
+# Ввод координат точки на карте
+print("Введите координаты точки на карте (широта, долгота):")
+lat0, lon0 = map(float, input().split(','))
+
+# Расчет расстояния между двумя людьми
+print("Расстояние между двумя людьми:", distance(lat1, lon1, lat2, lon2))
+
+# Расчет расстояния от каждого человека до точки на карте
+print("Расстояние от первого человека до точки на карте:", distance(lat1, lon1, lat0, lon0))
+print("Расстояние от второго человека до точки на карте:", distance(lat2, lon2, lat0, lon0))
+
+# Сравнение расстояний и вывод имени ближайшего человека
+if distance(lat1, lon1, lat0, lon0) < distance(lat2, lon2, lat0, lon0):
+    print("Ближайший человек к точке на карте: первый человек")
+else:
+    print("Ближайший человек к точке на карте: второй человек")
